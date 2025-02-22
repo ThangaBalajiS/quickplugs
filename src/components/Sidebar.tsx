@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/Sidebar.css';
 import { Divider } from "antd";
 
 const Sidebar = () => {
+  const [activeItem, setActiveItem] = useState("chat");
   return (
     <div className="sidebar">
       <div className="logo">
