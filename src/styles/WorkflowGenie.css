@@ -1,0 +1,128 @@
+.workflow-genie {
+  width: 500px;
+  border-left: 1px solid #e5e7eb;
+  padding: 24px;
+  position: relative;
+  background: white;
+}
+
+.genie-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.genie-header h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.collapse-btn {
+  width: 28px;
+  height: 28px;
+  background: #f3f4f6;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+}
+
+.templates-section h3 {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.templates-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.template-card {
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  background: white;
+}
+
+.template-card:hover {
+  background: #f9fafb;
+}
+
+.template-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.template-icons .icon {
+  width: 24px;
+  height: 24px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #4b5563;
+}
+
+.template-icons .arrow {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.template-card p {
+  margin: 0;
+  color: #4b5563;
+  font-size: 13px;
+}
+
+.chat-input {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  gap: 8px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #4b5563;
+  background: #f9fafb;
+}
+
+.chat-input input::placeholder {
+  color: #9ca3af;
+}
+
+.chat-input .attach-btn {
+  width: 32px;
+  height: 32px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+} 
