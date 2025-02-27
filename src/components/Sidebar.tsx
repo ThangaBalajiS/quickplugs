@@ -9,17 +9,17 @@ const Sidebar = () => {
       <div className="logo">
         <img src="/logo.svg" alt="Logo" />
       </div>
-      <Divider style={{ borderColor: "#E8E8E8" }} />
+      <Divider style={{ borderColor: "#E8E8E8", minWidth: "52px", width: "52px", marginLeft: 5 }} />
       <div className="sidebar-items">
         <div className="nav-items">
-          <div className="nav-item">
+          <div className="nav-item search-item">
             <div className="icon">
               <img src="/assets/search.svg" alt="Search" />
             </div>
             <span className="label">⌘+K</span>
           </div>
 
-          <Divider style={{ borderColor: "#E8E8E8" }} />
+          <Divider style={{ borderColor: "#E8E8E8", minWidth: "52px", width: "52px", marginLeft: 5 }} />
           
           <div className="nav-item active">
             <div className="icon">

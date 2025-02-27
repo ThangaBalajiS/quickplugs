@@ -12,15 +12,20 @@
   position: relative;
 }
 
-.workflow-steps::before {
+.step::before {
   content: '';
   position: absolute;
   top: 7px;
-  left: 32px;
+  left: 87px;
   right: 32px;
   height: 1px;
+  width: 145px;
   background: #e5e7eb;
   z-index: 1;
+}
+
+.step:last-child::before {
+  content: none;
 }
 
 .step {
@@ -33,8 +38,8 @@
 }
 
 .step-circle {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   border: 1px solid #e5e7eb;
   margin-bottom: 8px;
@@ -43,13 +48,19 @@
 }
 
 .step.active .step-circle {
-  background: #2563eb;
-  border-color: #2563eb;
+  border-color: #181D27;
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
 
-.step-line {
-  display: none;
+.step.active .step-circle:after {
+  content: "";
+  height: 8px;
+  width: 8px;
+  background: #181D27;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  border-radius: 4px;
 }
 
 .step-label {
@@ -61,7 +72,7 @@
 }
 
 .step.active .step-label {
-  color: #2563eb;
+  color: #181D27;
 }
 
 .workflow-canvas {

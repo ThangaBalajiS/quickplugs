@@ -11,7 +11,6 @@
 .logo {
   width: 32px;
   height: 32px;
-  margin-bottom: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,9 +31,8 @@
 }
 
 .search-item {
-  padding: 6px 8px;
+  padding: 0 8px;
   border-radius: 4px;
-  background: #f3f4f6;
   font-size: 11px;
   color: #6b7280;
   text-align: center;
@@ -48,7 +46,6 @@
 .nav-items {
   display: flex;
   flex-direction: column;
-  gap: 4px;
 }
 
 .nav-item {
@@ -61,6 +58,10 @@
   color: #6b7280;
   flex-direction: column;
   margin-bottom: 12px;
+}
+
+.search-item.nav-item  {
+  margin-bottom: 0;
 }
 
 .nav-item.active {

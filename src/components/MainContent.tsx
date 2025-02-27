@@ -18,7 +18,6 @@ const MainContent = () => {
               <div className="step-circle"></div>
               <div className="step-label">{step.label}</div>
             </div>
-            {index < steps.length - 1 && <div className="step-line"></div>}
           </React.Fragment>
         ))}
       </div>
