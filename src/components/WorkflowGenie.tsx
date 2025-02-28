@@ -65,10 +65,30 @@ const WorkflowGenie = () => {
         setConversationId(data.conversationId);
       }
 
+      // Parse the content which is a JSON string
+      let messageContent = '';
+      let action = null;
+      
+      try {
+        // The content is a JSON string that needs to be parsed
+        const parsedContent = JSON.parse(data.result.content);
+        messageContent = parsedContent.message;
+        action = parsedContent.action;
+        
+        // We'll handle actions later
+        if (action) {
+          console.log('Action received:', action);
+        }
+      } catch (parseError) {
+        // If parsing fails, use the content as is
+        messageContent = data.result.content;
+        console.error('Error parsing message content:', parseError);
+      }
+
       // Add assistant message to state
       const assistantMessage: GenieMessage = {
         id: uuidv4(),
-        content: data.result.content,
+        content: messageContent,
         sender: 'genie',
         timestamp: Date.now()
       };
