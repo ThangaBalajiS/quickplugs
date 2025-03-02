@@ -21,4 +21,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
+// Export the AppDispatch type
+export type AppDispatch = typeof store.dispatch;
+
 export default store; 

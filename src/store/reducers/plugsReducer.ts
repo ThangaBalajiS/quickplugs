@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { Plug } from '../../types';
+import { fetchPlugs } from '../actions/plugsActions';
 
 interface PlugsState {
   items: Plug[];
@@ -17,33 +18,29 @@ const plugsSlice = createSlice({
   name: 'plugs',
   initialState,
   reducers: {
-    fetchPlugsStart(state) {
-      state.loading = true;
-      state.error = null;
-    },
-    fetchPlugsSuccess(state, action: PayloadAction<Plug[]>) {
-      state.items = action.payload;
-      state.loading = false;
-    },
-    fetchPlugsFailure(state, action: PayloadAction<string>) {
-      state.loading = false;
-      state.error = action.payload;
-    },
-    addPlug(state, action: PayloadAction<Plug>) {
+    addPlug(state, action) {
       state.items.push(action.payload);
     },
-    removePlug(state, action: PayloadAction<string>) {
+    removePlug(state, action) {
       state.items = state.items.filter(plug => plug.id !== action.payload);
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchPlugs.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchPlugs.fulfilled, (state, action) => {
+        state.items = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchPlugs.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+  },
 });
 
-export const { 
-  fetchPlugsStart, 
-  fetchPlugsSuccess, 
-  fetchPlugsFailure,
-  addPlug,
-  removePlug
-} = plugsSlice.actions;
-
+export const { addPlug, removePlug } = plugsSlice.actions;
 export default plugsSlice.reducer; 
