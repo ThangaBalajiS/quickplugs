@@ -6,8 +6,22 @@ import { RootState } from '../store';
 import { addMessage } from '../store/reducers/genieMessagesReducer';
 import { GenieMessage } from '../types';
 import { v4 as uuidv4 } from 'uuid';
+import { addPlug } from '../store/reducers/plugsReducer';
+import { selectPlugSuccess } from '../store/reducers/plugReducer';
 
 const { TextArea } = Input;
+
+interface ActionApp {
+  name: string;
+  description: string;
+  type: string;
+}
+
+interface ActionData {
+  name: string;
+  description: string;
+  apps: ActionApp[];
+}
 
 const WorkflowGenie = () => {
   const [prompt, setPrompt] = useState('');
@@ -31,6 +45,61 @@ const WorkflowGenie = () => {
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const createPlug = async (actionData: ActionData) => {
+    try {
+      // Send POST request to create a plug
+      const response = await fetch('http://localhost/plugs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: actionData.name,
+          desc: actionData.description
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create plug');
+      }
+
+      const newPlug = await response.json();
+
+      // Add the new plug to the Redux store
+      const plugData = {
+        id: newPlug.id || uuidv4(),
+        name: actionData.name,
+        description: actionData.description,
+        icon: '/assets/default-plug.svg', // Default icon
+        type: actionData.apps && actionData.apps.length > 0 ? actionData.apps[0].type : 'Integration'
+      };
+
+      dispatch(addPlug(plugData));
+      dispatch(selectPlugSuccess(plugData));
+
+      // Add a confirmation message
+      const confirmationMessage: GenieMessage = {
+        id: uuidv4(),
+        content: `I've created a new integration: "${actionData.name}"`,
+        sender: 'genie',
+        timestamp: Date.now()
+      };
+      dispatch(addMessage(confirmationMessage));
+
+    } catch (error) {
+      console.error('Error creating plug:', error);
+      
+      // Add error message
+      const errorMessage: GenieMessage = {
+        id: uuidv4(),
+        content: 'Sorry, there was an error creating the integration.',
+        sender: 'genie',
+        timestamp: Date.now()
+      };
+      dispatch(addMessage(errorMessage));
+    }
   };
 
   const handleSubmit = async () => {
@@ -75,9 +144,14 @@ const WorkflowGenie = () => {
         messageContent = parsedContent.message;
         action = parsedContent.action;
         
-        // We'll handle actions later
-        if (action) {
+        // Handle action if it exists and matches the expected format
+        if (action && 
+            typeof action === 'object' && 
+            'name' in action && 
+            'description' in action && 
+            'apps' in action) {
           console.log('Action received:', action);
+          await createPlug(action as ActionData);
         }
       } catch (parseError) {
         // If parsing fails, use the content as is
