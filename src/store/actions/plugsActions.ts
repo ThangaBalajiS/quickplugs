@@ -6,43 +6,34 @@ export const fetchPlugs = createAsyncThunk(
   'plugs/fetchPlugs',
   async (_, { rejectWithValue }) => {
     try {
-      // Simulate API call
-      const response = await new Promise<Plug[]>((resolve) => {
-        setTimeout(() => {
-          resolve([
-            {
-              id: '1',
-              name: 'Salesforce',
-              description: 'CRM integration',
-              icon: '/assets/salesforce.svg',
-              type: 'CRM'
-            },
-            {
-              id: '2',
-              name: 'Slack',
-              description: 'Communication integration',
-              icon: '/assets/slack.svg',
-              type: 'Communication'
-            },
-            {
-              id: '3',
-              name: 'Google Sheets',
-              description: 'Spreadsheet integration',
-              icon: '/assets/sheets.svg',
-              type: 'Data'
-            },
-            {
-              id: '4',
-              name: 'Mailchimp',
-              description: 'Email marketing integration',
-              icon: '/assets/mailchimp.svg',
-              type: 'Marketing'
-            }
-          ]);
-        }, 500);
-      });
+      const response = await fetch('http://localhost/plugs');
       
-      return response;
+      if (!response.ok) {
+        throw new Error('Failed to fetch plugs');
+      }
+      
+      const plugs = await response.json();
+      
+      // Fetch metadata for each plug
+      const plugsWithMetadata = await Promise.all(
+        plugs.map(async (plug: any) => {
+          try {
+            const metadataResponse = await fetch(`http://localhost/plugs/${plug.id}/metadata`);
+            
+            if (metadataResponse.ok) {
+              const metadata = await metadataResponse.json();
+              return { ...plug, metadata };
+            }
+            
+            return plug;
+          } catch (error) {
+            console.error(`Failed to fetch metadata for plug ${plug.id}:`, error);
+            return plug;
+          }
+        })
+      );
+      
+      return plugsWithMetadata;
     } catch (error) {
       return rejectWithValue(error instanceof Error ? error.message : 'Unknown error');
     }
